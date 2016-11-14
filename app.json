@@ -1,0 +1,15 @@
+{
+  "name": "mobile-resource-library",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+
+  ]
+}
