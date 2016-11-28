@@ -10,6 +10,6 @@
 
   ],
   "buildpacks": [
-
+      "url":"https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-nodejs"
   ]
 }
