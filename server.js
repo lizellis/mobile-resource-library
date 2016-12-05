@@ -1,13 +1,32 @@
-const http = require('http');
+var express = require('express');
+var app = express();
 
-const port = 5000;
+var cookieParser = require('cookie-parser');
+app.use(cookieParser('thisisasecret'));
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
+var handler = require('./js/tbd');
+
+app.set('port', (process.env.PORT || 5000));
+app.use(express.static(__dirname));
+
+app.get('/', function(request, response) {
+    response = handler.createCookie(request, response);
+    response = handler.setLocation(request, response);
+    response.end();
 });
 
-server.listen(process.env.PORT || port, () => {
-  console.log('Server running at http://${hostname}:${port}/');
+app.get('/checkout', function(request, response) {
+    response.sendFile(__dirname + '/checkout.html');
+});
+
+/*const server = http.createServer((req, res) => {
+    var redirect = RedirectHandler(req);
+    res = redirect.getServerResponse(res);
+    console.log(res.statusCode);
+    console.log(req.url);
+    res.end();
+});*/
+
+app.listen(app.get('port'), function() {
+  console.log('Server running...');
 });
