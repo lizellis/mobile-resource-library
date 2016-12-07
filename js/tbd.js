@@ -7,10 +7,16 @@ module.exports = {
         }
         return response;
     },
+    getResource : function getResource(objectId) {
+        var sampleData = require('./../sampledata.json');
+        for (var i =0; i < sampleData.length; i++) {
+            if (sampleData[i].id === objectId) {
+                return sampleData[i];
+            }
+        }
+    },
     setLocation : function setLocation(request, response) {
         var newPath = getRedirectUrl(request.path);
-        console.log(newPath);
-        console.log(request.path);
         if (newPath !== request.path) {
             response.writeHead(302, {
                 Location : newPath

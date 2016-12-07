@@ -1,0 +1,35 @@
+[
+    {
+        "id" : "id1",
+        "type" : "book",
+        "title" : "Clean Code",
+        "author" : "Robert C. Martin",
+        "rentedBy" : ""
+    },
+    {
+        "id" : "id2",
+        "type" : "book",
+        "title" : "Refactoring",
+        "author" : "Martin Fowler",
+        "rentedBy" : ""
+    },
+    {
+        "id" : "id3",
+        "type" : "book",
+        "title" : "Working Effectively with Legacy Code",
+        "author" : "Michael C. Feathers",
+        "rentedBy" : ""
+    },
+    {
+        "id" : "id4",
+        "type" : "device",
+        "title" : "iPhone 6",
+        "rentedBy" : ""
+    },
+    {
+        "id" : "id5",
+        "type" : "device",
+        "title" : "mifi",
+        "rentedBy" : ""
+    }
+]

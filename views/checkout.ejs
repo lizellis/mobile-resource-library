@@ -1,0 +1,41 @@
+<% include header %>
+<h2 class="text-center" >Check Out</h2>
+<link rel="stylesheet" href="./css/awesomplete.css" />
+<% include resourceDetails %>
+<div class="row">
+    <div class="col-md-offset-3 col-md-9 col-xs-12">
+        Enter your name to check out this resource.
+    </div>
+</div>
+<form class="form-horizontal">
+    <div class="form-group form-group-lg">
+        <label for="user" class="col-xs-12 col-md-3 control-label">Name</label>
+        <div class="col-xs-12 col-md-9">
+            <input class="form-control" type="text" id="user" />
+        </div>
+    </div>
+    <input class="btn btn-primary btn-lg btn-block" type="submit" />
+</form>
+<script src="./js/awesomplete.min.js"></script>
+<script>
+    var awesomplete;
+    var ajax = new XMLHttpRequest();
+    ajax.open("GET", "/sampleUsers.json", true);
+    ajax.onload = function() {
+        var list = JSON.parse(ajax.responseText).map(function(user) {
+            return { label: user.firstName + ' ' + user.lastName, value: user.id};
+        });
+        console.log(list);
+        awesomplete = new Awesomplete(document.getElementById('user'), {list : list});
+    }
+    ajax.send();
+
+    document.addEventListener('awesomplete-select', function(event) {
+        event.preventDefault();
+        var selection = event.text;
+        document.getElementById('user').value = selection.label;
+        document.cookie = 'userId='+selection.value;
+        awesomplete.close();
+    });
+</script>
+<% include footer %>

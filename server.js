@@ -1,5 +1,9 @@
 var express = require('express');
+var ejs = require('ejs');
 var app = express();
+    
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 
 var cookieParser = require('cookie-parser');
 app.use(cookieParser('thisisasecret'));
@@ -16,7 +20,23 @@ app.get('/', function(request, response) {
 });
 
 app.get('/checkout', function(request, response) {
-    response.sendFile(__dirname + '/checkout.html');
+    var resource = handler.getResource(request.signedCookies.objectId);
+    var users = require('./sampleUsers.json');
+    if (resource) {
+        response.render('checkout', {
+            title: resource.title,
+            author: resource.author,
+            type: resource.type,
+            users: users
+        });
+    } else {
+        response.render('resourceNotFound');
+    }
+});
+
+app.post('/checkout', function(request, response) {
+    var resource = handler.getResource(request.signedCookies.objectId);
+    var user = request.cookies.userId;
 });
 
 /*const server = http.createServer((req, res) => {
