@@ -12,7 +12,8 @@
   "dependencies": {
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.5",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "fs": "0.0.1-security"
   },
   "repository": {
     "type": "git",

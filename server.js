@@ -21,13 +21,11 @@ app.get('/', function(request, response) {
 
 app.get('/checkout', function(request, response) {
     var resource = handler.getResource(request.signedCookies.objectId);
-    var users = require('./sampleUsers.json');
     if (resource) {
         response.render('checkout', {
             title: resource.title,
             author: resource.author,
             type: resource.type,
-            users: users
         });
     } else {
         response.render('resourceNotFound');
@@ -36,16 +34,42 @@ app.get('/checkout', function(request, response) {
 
 app.post('/checkout', function(request, response) {
     var resource = handler.getResource(request.signedCookies.objectId);
-    var user = request.cookies.userId;
+    resource.rentedBy = request.cookies.userId;
+    handler.rentResource(resource);
+    response.render('thankYou', { 
+        title: resource.title,
+        author: resource.author,
+        type: resource.type,
+        action : 'checking out'
+    });
 });
 
-/*const server = http.createServer((req, res) => {
-    var redirect = RedirectHandler(req);
-    res = redirect.getServerResponse(res);
-    console.log(res.statusCode);
-    console.log(req.url);
-    res.end();
-});*/
+app.get('/return', function(request, response) {
+    var resource = handler.getResource(request.signedCookies.objectId);
+    var user = handler.getUser(resource.rentedBy);
+    if (resource) {
+        response.render('return', {
+            title: resource.title,
+            author: resource.author,
+            type: resource.type,
+            user: user.firstName + ' ' + user.lastName
+        });
+    } else {
+        response.render('resourceNotFound');
+    }
+});
+
+app.post('/return', function(request, response) {
+    var resource = handler.getResource(request.signedCookies.objectId);
+    resource.rentedBy = null;
+    handler.rentResource(resource);
+    response.render('thankYou', { 
+        title: resource.title,
+        author: resource.author,
+        type: resource.type,
+        action : 'returning'
+    });
+});
 
 app.listen(app.get('port'), function() {
   console.log('Server running...');
